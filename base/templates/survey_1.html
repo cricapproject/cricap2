@@ -1,0 +1,41 @@
+{% extends "master.html" %}
+{% load static %}
+
+{% block title %}Dashboard - CRICAP{% endblock %}
+
+{% block head %}
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="{% static 'assets/css/dashboard.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<body>
+    <header class="header">
+        <h1>CRICAP Survei</h1>
+    </header>
+
+    <div class="container">
+        <div class="survey-form">
+            <h2>Pernyataan Pendahuluan</h2>
+            <p>
+                Kuesioner ini untuk menunjang riset berjudul "Pengembangan Model Respons Kredit dan Software Pre-Application Berbasis Sains Data dalam Meningkatkan Literasi Perbankan Masyarakat untuk Mendorong Pertumbuhan Ekonomi".
+                Kami memohon kesediaan Bapak/Ibu untuk meluangkan waktu selama kurang lebih 10-15 menit dalam pengisian kuesioner ini. 
+                Tidak ada pilihan yang benar atau salah dalam mengisi kuesioner ini, 
+                karena pilihan yang tepat adalah yang paling sesuai dengan
+                pendapat atau penilaian Bapak/Ibu. Data hasil survei ini hanya untuk 
+                kepentingan penelitian ilmiah, kerahasiannya sangat kami jamin.
+            </p>
+            <form action="{% url 'survey_2' %}" method="get">
+                <div>
+                    <label>
+                        <input type="checkbox" name="consent" required>
+                        Saya menyetujui untuk berpartisipasi dalam kuesioner ini.
+                    </label>
+                </div>
+                <br>
+                <button type="submit" class="btn btn-primary">Next</button>
+            </form>
+        </div>
+    </div>
+</body>
+{% endblock %}

@@ -1,0 +1,162 @@
+{% extends "master.html" %}
+{% load static %}
+
+{% block title %}Dashboard - CRICAP{% endblock %}
+
+{% block head %}
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="{% static 'assets/css/dashboard.css' %}" rel="stylesheet">
+
+<style>
+/* Layout radio group */
+.radio-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+    margin-top: 15px;
+}
+
+/* Sembunyikan radio asli */
+.radio-group input[type="radio"] {
+    display: none;
+}
+
+/* Kolom tiap opsi */
+.radio-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 80px;
+}
+
+/* Style umum lingkaran */
+.radio-group label {
+    position: relative;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+/* Ukuran berbeda tiap opsi */
+.radio-group label.ss { width: 40px; height: 40px; }
+.radio-group label.s  { width: 32px; height: 32px; }
+.radio-group label.r  { width: 24px; height: 24px; }
+.radio-group label.ts { width: 32px; height: 32px; }
+.radio-group label.sts{ width: 40px; height: 40px; }
+
+/* Warna border default */
+.radio-group label.ss { border-color: #27ae60; }  /* hijau tua */
+.radio-group label.s  { border-color: #2ecc71; }  /* hijau muda */
+.radio-group label.r  { border-color: #95a5a6; }  /* abu */
+.radio-group label.ts { border-color: #e67e22; }  /* oranye */
+.radio-group label.sts{ border-color: #e74c3c; }  /* merah */
+
+/* Saat dipilih */
+.radio-group input[type="radio"]:checked + label {
+    color: #fff;
+}
+.radio-group input[type="radio"]:checked + label.ss { background: #27ae60; }
+.radio-group input[type="radio"]:checked + label.s  { background: #2ecc71; }
+.radio-group input[type="radio"]:checked + label.r  { background: #95a5a6; }
+.radio-group input[type="radio"]:checked + label.ts { background: #e67e22; }
+.radio-group input[type="radio"]:checked + label.sts{ background: #e74c3c; }
+
+.radio-group input[type="radio"]:checked + label::before {
+    content: "✔";
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+}
+
+/* Label teks */
+.option-text {
+    font-size: 14px;
+    margin-top: 6px;
+    text-align: center;
+}
+.option-text.ss { color: #27ae60; }
+.option-text.s  { color: #2ecc71; }
+.option-text.r  { color: #95a5a6; }
+.option-text.ts { color: #e67e22; }
+.option-text.sts{ color: #e74c3c; }
+
+/* Jarak judul dengan pertanyaan */
+.survey-form h2 {
+    margin-bottom: 30px;
+}
+
+/* BOX pertanyaan */
+.question-box {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+    padding: 20px;
+    margin-bottom: 25px;
+}
+.question-box p {
+    margin: 0 0 8px 0;
+    font-weight: 500;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<header class="header">
+    <h1>CRICAP Survei</h1>
+</header>
+
+<div class="container">
+    <div class="survey-form">
+        <h2>Kuesioner IRK</h2>
+        <div class="form-group">
+            <form method="POST">
+                {% csrf_token %}
+                {% for question in sub_questions %}
+                <div class="question-box">
+                    <p>{{ question.text }}</p>
+                    <div class="radio-group">
+                        <div class="radio-col">
+                            <input type="radio" name="question_{{ question.id }}" id="q{{ question.id }}_a" value="SS">
+                            <label for="q{{ question.id }}_a" class="ss"></label>
+                            <div class="option-text ss">Sangat Setuju</div>
+                        </div>
+
+                        <div class="radio-col">
+                            <input type="radio" name="question_{{ question.id }}" id="q{{ question.id }}_b" value="S">
+                            <label for="q{{ question.id }}_b" class="s"></label>
+                            <div class="option-text s">Setuju</div>
+                        </div>
+
+                        <div class="radio-col">
+                            <input type="radio" name="question_{{ question.id }}" id="q{{ question.id }}_c" value="R">
+                            <label for="q{{ question.id }}_c" class="r"></label>
+                            <div class="option-text r">Ragu-Ragu</div>
+                        </div>
+
+                        <div class="radio-col">
+                            <input type="radio" name="question_{{ question.id }}" id="q{{ question.id }}_d" value="TS">
+                            <label for="q{{ question.id }}_d" class="ts"></label>
+                            <div class="option-text ts">Tidak Setuju</div>
+                        </div>
+
+                        <div class="radio-col">
+                            <input type="radio" name="question_{{ question.id }}" id="q{{ question.id }}_e" value="STS">
+                            <label for="q{{ question.id }}_e" class="sts"></label>
+                            <div class="option-text sts">Sangat Tidak Setuju</div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% if not questions.has_next %}
+                    <button type="submit" class="btn btn-primary">Submit Survei</button>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

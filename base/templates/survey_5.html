@@ -1,0 +1,25 @@
+{% extends "master.html" %}
+{% load static %}
+
+{% block title %}Dashboard - CRICAP{% endblock %}
+
+{% block head %}
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="{% static 'assets/css/dashboard.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<body>
+    <header class="header">
+        <h1>CRICAP Survei</h1>
+    </header>
+
+    <div class="container">
+        <div class="survey-form">
+            <h2>Terima Kasih</h2>
+            <p>Terima kasih telah berpartisipasi dalam survei ini. Jawaban Anda sangat berharga bagi penelitian kami.</p>
+            <a class="btn btn-primary" href="{% url 'rata-rata' %}">Liat Nilai disini!!</a>
+        </div>
+    </div>
+</body>
+{% endblock %}

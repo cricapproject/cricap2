@@ -1,0 +1,44 @@
+[
+  {
+    "model": "base.kecamatan",
+    "pk": 1,
+    "fields": { "nama": "Batu" }
+  },
+  {
+    "model": "base.kecamatan",
+    "pk": 2,
+    "fields": { "nama": "Bumiaji" }
+  },
+  {
+    "model": "base.kecamatan",
+    "pk": 3,
+    "fields": { "nama": "Junrejo" }
+  },
+
+  { "model": "base.desa", "fields": { "kecamatan": 1, "nama": "Oro-oro Ombo" } },
+  { "model": "base.desa", "fields": { "kecamatan": 1, "nama": "Pesanggrahan" } },
+  { "model": "base.desa", "fields": { "kecamatan": 1, "nama": "Sidomuyo" } },
+  { "model": "base.desa", "fields": { "kecamatan": 1, "nama": "Sumberejo" } },
+  { "model": "base.desa", "fields": { "kecamatan": 1, "nama": "Ngaglik" } },
+  { "model": "base.desa", "fields": { "kecamatan": 1, "nama": "Sisir" } },
+  { "model": "base.desa", "fields": { "kecamatan": 1, "nama": "Songgokerto" } },
+  { "model": "base.desa", "fields": { "kecamatan": 1, "nama": "Temas" } },
+
+  { "model": "base.desa", "fields": { "kecamatan": 2, "nama": "Bulukerto" } },
+  { "model": "base.desa", "fields": { "kecamatan": 2, "nama": "Bumiaji" } },
+  { "model": "base.desa", "fields": { "kecamatan": 2, "nama": "Giripurno" } },
+  { "model": "base.desa", "fields": { "kecamatan": 2, "nama": "Gunungsari" } },
+  { "model": "base.desa", "fields": { "kecamatan": 2, "nama": "Pandanrejo" } },
+  { "model": "base.desa", "fields": { "kecamatan": 2, "nama": "Punten" } },
+  { "model": "base.desa", "fields": { "kecamatan": 2, "nama": "Sumbergondo" } },
+  { "model": "base.desa", "fields": { "kecamatan": 2, "nama": "Tulungrejo" } },
+  { "model": "base.desa", "fields": { "kecamatan": 2, "nama": "Sumber Brantas" } },
+
+  { "model": "base.desa", "fields": { "kecamatan": 3, "nama": "Beji" } },
+  { "model": "base.desa", "fields": { "kecamatan": 3, "nama": "Dadaprejo" } },
+  { "model": "base.desa", "fields": { "kecamatan": 3, "nama": "Junrejo" } },
+  { "model": "base.desa", "fields": { "kecamatan": 3, "nama": "Mojorejo" } },
+  { "model": "base.desa", "fields": { "kecamatan": 3, "nama": "Pendem" } },
+  { "model": "base.desa", "fields": { "kecamatan": 3, "nama": "Tlekung" } },
+  { "model": "base.desa", "fields": { "kecamatan": 3, "nama": "Torongrejo" } }
+]

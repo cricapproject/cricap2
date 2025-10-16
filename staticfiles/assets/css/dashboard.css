@@ -1,0 +1,450 @@
+/* Base styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f7fa;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.dashboard {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Navbar styles */
+.navbar {
+    background-color: #ffffff !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,.08);
+}
+
+.navbar-brand {
+    font-weight: 700;
+    color: #3a0ca3;
+}
+
+.form-control-dark {
+    background-color: rgba(255,255,255,.1);
+    border-color: rgba(255,255,255,.1);
+}
+
+.form-control-dark:focus {
+    border-color: transparent;
+    box-shadow: 0 0 0 3px rgba(255,255,255,.25);
+}
+
+.dropdown-toggle::after {
+    display: none;
+}
+
+.btn-secondary {
+    background-color: #4361ee;
+    border-color: #4361ee;
+}
+
+.btn-secondary:hover {
+    background-color: #3a0ca3;
+    border-color: #3a0ca3;
+}
+
+/* Sidebar styles */
+.sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    padding: 90px 0 0;
+    box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+    z-index: 99;
+}
+
+@media (max-width: 767.98px) {
+    .sidebar {
+        top: 11.5rem;
+        padding: 0;
+    }
+}
+
+.sidebar .nav-link {
+    color: #333;
+    transition: all 0.3s;
+}
+
+.sidebar .nav-link:hover,
+.sidebar .nav-link.active {
+    color: #3a0ca3;
+    background-color: #f8f9fa;
+}
+
+.sidebar .nav-link.active {
+    border-right: 3px solid #3a0ca3;
+}
+
+.sidebar-sticky {
+    position: relative;
+    height: calc(100vh - 48px);
+    padding-top: .5rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.sidebar .nav-link .feather {
+    margin-right: 4px;
+    color: #727272;
+}
+
+.sidebar .nav-link.active .feather {
+    color: #3a0ca3;
+}
+
+/* Main content styles */
+main {
+    padding-top: 90px;
+}
+
+@media (max-width: 767.98px) {
+    main {
+        padding-top: 0;
+    }
+}
+
+.breadcrumb {
+    background-color: transparent;
+    padding: 0;
+    margin-bottom: 1.5rem;
+}
+
+.breadcrumb-item.active {
+    color: #6c757d;
+}
+
+/* Card styles */
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card-header {
+    background-color: #fff;
+    border-bottom: 1px solid rgba(0,0,0,.125);
+    padding: 1.5rem;
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+/* Button styles */
+.btn-primary {
+    background-color: #4361ee;
+    border-color: #4361ee;
+}
+
+.btn-primary:hover {
+    background-color: #3a0ca3;
+    border-color: #3a0ca3;
+}
+
+/* Table styles */
+.table thead th {
+    border-top: none;
+    border-bottom: 2px solid #dee2e6;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(0,0,0,.075);
+}
+
+/* Footer styles */
+footer {
+    background-color: #ffffff;
+    padding: 1rem 0;
+    margin-top: auto;
+}
+
+footer a {
+    color: #3a0ca3;
+}
+
+footer a:hover {
+    color: #4361ee;
+    text-decoration: none;
+}
+
+/* Utility classes */
+.text-primary { color: #4361ee !important; }
+.bg-primary { background-color: #4361ee !important; }
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.fade-in { animation: fadeIn 0.5s ease-in; }
+
+/* Responsive adjustments */
+@media (max-width: 991.98px) {
+    .sidebar { position: static; height: auto; padding-top: 0; }
+    main { margin-left: 0 !important; }
+}
+
+/* User profile image */
+.rounded-circle {
+    border: 2px solid #4361ee;
+}
+
+/* Multi-step form styles */
+.step { display: none; }
+.step.active { display: block; animation: fadeIn 0.5s ease-in; }
+
+.step-indicator {
+    width: 20px;
+    height: 20px;
+    background-color: #e9ecef;
+    border-radius: 50%;
+    display: inline-block;
+    margin: 0 5px;
+}
+
+.step-indicator.active { background-color: #4361ee; }
+
+/* Chart styles */
+.ct-series-a .ct-line,
+.ct-series-a .ct-point { stroke: #4361ee; }
+
+.ct-series-b .ct-line,
+.ct-series-b .ct-point { stroke: #3a0ca3; }
+
+.ct-label { font-size: 12px; color: #6c757d; }
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #f1f1f1; }
+::-webkit-scrollbar-thumb { background: #888; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #555; }
+
+/* ----------------------------
+   Survey Section
+-----------------------------*/
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Survey header */
+.header {
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0,0,0,.08);
+    padding: 1rem;
+    margin-bottom: 2rem;
+    margin-top: 2rem; /* tambahan biar ada jarak dari navbar */
+}
+
+.header h1 {
+    margin: 0;
+    color: #3a0ca3;
+}
+
+/* Survey form */
+.survey-form {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    padding: 2rem;
+}
+
+/* Progress indicator */
+.progress-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+}
+
+.circle-progress {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #e9ecef;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.step-indicator.active .circle-progress {
+    background-color: #4361ee;
+    color: #ffffff;
+}
+
+.label-progress {
+    font-size: 0.8rem;
+    color: #6c757d;
+}
+
+/* Form elements */
+.form-group { margin-bottom: 1.5rem; }
+
+label { display: block; margin-bottom: 0.5rem; }
+
+input[type="text"],
+input[type="email"],
+select,
+textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+/* Radio group */
+.radio-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+}
+
+.radio-option {
+    display: flex;
+    align-items: center;
+}
+
+.radio-option input[type="radio"] {
+    margin-right: 0.5rem;
+}
+
+/* Button group */
+.btn-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2rem;
+}
+
+.btn {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+
+.btn-primary { background-color: #4361ee; color: #ffffff; }
+.btn-primary:hover { background-color: #3a0ca3; }
+
+.btn-secondary { background-color: #6c757d; color: #ffffff; }
+.btn-secondary:hover { background-color: #5a6268; }
+
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.hidden { display: none; }
+
+/* ----------------------------
+   Card Fitur
+-----------------------------*/
+.card-fitur {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin-bottom: 2rem;
+}
+
+.card-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.card-content { padding: 1.5rem; }
+
+.card-title {
+    color: #3a0ca3;
+    margin: 0 0 1rem 0;
+}
+
+.card-description {
+    color: #6c757d;
+    margin-bottom: 1.5rem;
+}
+
+.endpoint-info {
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.endpoint-label {
+    font-weight: 600;
+    color: #4361ee;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.endpoint-url {
+    display: block;
+    word-break: break-all;
+    font-family: monospace;
+    background-color: #e9ecef;
+    padding: 0.5rem;
+    border-radius: 4px;
+}
+
+/* ----------------------------
+   Survey Question Box
+-----------------------------*/
+/* Box tiap pertanyaan */
+.question-box {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 20px;
+    margin-bottom: 25px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Efek hover */
+.question-box:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Judul pertanyaan */
+.question-box p:first-child {
+    font-weight: 600;
+    color: #4A148C;
+    margin-bottom: 8px;
+}
+
+/* Isi teks pertanyaan */
+.question p:nth-child(2) {
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    color: #333;
+}
+
+.survey-form label,
+.survey-form select,
+.survey-form option {
+    font-weight: 400 !important;
+}
+
+.chart-box canvas {
+  width: 200px !important;
+  height: 50px !important;
+  max-width: 100%;
+  margin-top: 20px;
+}

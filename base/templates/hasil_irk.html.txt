@@ -1,0 +1,40 @@
+<!-- WILAYAH -->
+<div class="irk-box" style="margin-top:20px;">
+  <h3>WILAYAH :</h3>
+
+  <!-- TERTINGGI -->
+  <div style="margin-bottom:10px;">
+    <strong>Tertinggi :</strong>
+    <ul>
+      {% for w in wilayah_tertinggi %}
+        <li>{{ w.kecamatan }} - {{ w.desa }} → {{ w.irk|floatformat:"2" }}</li>
+      {% empty %}
+        <li>Tidak ada data</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <!-- SEDANG -->
+  <div style="margin-bottom:10px;">
+    <strong>Sedang :</strong>
+    <ul>
+      {% for w in wilayah_sedang %}
+        <li>{{ w.kecamatan }} - {{ w.desa }} → {{ w.irk|floatformat:"2" }}</li>
+      {% empty %}
+        <li>Tidak ada data</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <!-- TERENDAH -->
+  <div style="margin-bottom:10px;">
+    <strong>Terendah :</strong>
+    <ul>
+      {% for w in wilayah_terendah %}
+        <li>{{ w.kecamatan }} - {{ w.desa }} → {{ w.irk|floatformat:"2" }}</li>
+      {% empty %}
+        <li>Tidak ada data</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRICAP Survey</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Base styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f7fa;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header styles */
+        .header {
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0,0,0,.08);
+            padding: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            margin: 0;
+            color: #3a0ca3;
+        }
+
+        /* Survey form styles */
+        .survey-form {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            padding: 2rem;
+        }
+
+        /* Progress indicator styles */
+        .progress-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+        }
+
+        .step-indicator {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .circle-progress {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #e9ecef;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-indicator.active .circle-progress {
+            background-color: #4361ee;
+            color: #ffffff;
+        }
+
+        .label-progress {
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+
+        /* Form element styles */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .radio-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.5rem;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+        }
+
+        .radio-option input[type="radio"] {
+            margin-right: 0.5rem;
+        }
+
+        /* Button styles */
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary {
+            background-color: #4361ee;
+            color: #ffffff;
+        }
+
+        .btn-primary:hover {
+            background-color: #3a0ca3;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            color: #ffffff;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Utility classes */
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>CRICAP Survey</h1>
+    </header>
+
+    <div class="container">
+        <div class="survey-form">
+            <div class="progress-container">
+                <div class="step-indicator" id="step1">
+                    <div class="circle-progress">1</div>
+                    <div class="label-progress">Pernyataan</div>
+                </div>
+                <div class="step-indicator active" id="step2">
+                    <div class="circle-progress">2</div>
+                    <div class="label-progress">Instruksi</div>
+                </div>
+                <div class="step-indicator" id="step3">
+                    <div class="circle-progress">3</div>
+                    <div class="label-progress">Data Diri</div>
+                </div>
+                <div class="step-indicator" id="step4">
+                    <div class="circle-progress">4</div>
+                    <div class="label-progress">Pertanyaan</div>
+                </div>
+                <div class="step-indicator" id="step5">
+                    <div class="circle-progress">5</div>
+                    <div class="label-progress">Selesai</div>
+                </div>
+            </div>
+            <form id="surveyForm">
+                <div class="step" id="step1Content">
+                    <h2>Pernyataan Pendahuluan</h2>
+                    <p>
+                        Kuesioner ini untuk menunjang riset berjudul "Pengembangan Model Respons Kredit dan Software Pre-Application Berbasis Sains Data dalam Meningkatkan Literasi Perbankan Masyarakat untuk Mendorong Pertumbuhan Ekonomi".
+                        Kami memohon kesediaan Bapak/Ibu untuk meluangkan waktu selama kurang lebih 10-15 menit dalam pengisian kuesioner ini. 
+                        Tidak ada pilihan yang benar atau salah dalam mengisi kuesioner ini, 
+                        karena pilihan yang tepat adalah yang paling sesuai dengan
+                        pendapat atau penilaian Bapak/Ibu. Data hasil survei ini hanya untuk 
+                        kepentingan penelitian ilmiah, kerahasiannya sangat kami jamin.
+                    </p>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="consentCheckbox" required>
+                            Saya menyetujui untuk berpartisipasi dalam kuesioner ini.
+                        </label>
+                    </div>
+                </div>
+
+                <div class="step hidden" id="step2Content">
+                    <h2>Petunjuk Pengisian Kuesioner</h2>
+                    <p>
+                        Pilihlah salah satu alternatif respons (jawaban) untuk setiap butir pernyataan yang paling sesuai dengan kondisi Bapak/Ibu dengan membubuhkan tanda "√". Masing-masing pernyataan memiliki alternatif jawaban sebagai berikut:
+                    </p>
+                    <ul>
+                        <li><strong>Sangat Setuju (SS):</strong> Bapak/Ibu berpendapat bahwa apa yang terkandung di dalam pernyataan yang diajukan sungguh-sungguh sesuai dengan apa yang dirasakan.</li>
+                        <li><strong>Setuju (S):</strong> Bapak/Ibu berpendapat bahwa apa yang terkandung di dalam pernyataan yang diajukan sesuai dengan apa yang dirasakan.</li>
+                        <li><strong>Ragu-Ragu (R):</strong> Bapak/Ibu ragu-ragu tentang apa yang terkandung di dalam pernyataan.</li>
+                        <li><strong>Tidak Setuju (TS):</strong> Bapak/Ibu berpendapat bahwa apa yang terkandung di dalam pernyataan yang diajukan tidak sesuai dengan apa yang dirasakan.</li>
+                        <li><strong>Sangat Tidak Setuju (STS):</strong> Bapak/Ibu berpendapat bahwa apa yang terkandung di dalam pernyataan yang diajukan sungguh-sungguh tidak sesuai dengan apa yang dirasakan.</li>
+                    </ul>
+                </div>
+
+                <div class="step hidden" id="step3Content">
+                    <h2>Data Diri</h2>
+                    <div class="form-group">
+                        <label for="name">Nama Lengkap:</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="age">Usia:</label>
+                        <input type="number" id="age" name="age" required min="18" max="100">
+                    </div>
+                    <div class="form-group">
+                        <label for="gender">Jenis Kelamin:</label>
+                        <select id="gender" name="gender" required>
+                            <option value="">Pilih jenis kelamin</option>
+                            <option value="male">Laki-laki</option>
+                            <option value="female">Perempuan</option>
+                            <option value="other">Lainnya</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="step hidden" id="step4Content">
+                    <h2>Pertanyaan Survey</h2>
+                    <div class="form-group">
+                        <form method="POST">
+                            {% csrf_token %}
+                            {% for question in sub_questions %}
+                            <div class="question">
+                                <p><b>Soal {{ forloop.counter }}:</b></p>
+                                <p>{{ question.text }}</p>
+                                <div class="radio-group">
+                                    <div class="option">
+                                        <input type="radio" name="question_{{ question.id }}" id="q{{ question.id }}_a" value="SS">
+                                        <label for="q{{ question.id }}_a">Sangat Setuju</label>
+                                    </div>
+                                    <div class="option">
+                                        <input type="radio" name="question_{{ question.id }}" id="q{{ question.id }}_b" value="S">
+                                        <label for="q{{ question.id }}_b">Setuju</label>
+                                    </div>
+                                    <div class="option">
+                                        <input type="radio" name="question_{{ question.id }}" id="q{{ question.id }}_c" value="R">
+                                        <label for="q{{ question.id }}_c">Ragu-Ragu</label>
+                                    </div>
+                                    <div class="option">
+                                        <input type="radio" name="question_{{ question.id }}" id="q{{ question.id }}_d" value="TS">
+                                        <label for="q{{ question.id }}_d">Tidak Setuju</label>
+                                    </div>
+                                    <div class="option">
+                                        <input type="radio" name="question_{{ question.id }}" id="q{{ question.id }}_e" value="STS">
+                                        <label for="q{{ question.id }}_e">Sangat Tidak Setuju</label>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            <!-- Tombol Submit hanya muncul di halaman terakhir -->
+                            {% if not questions.has_next %}
+                                <button type="submit">Submit Survey</button>
+                            {% endif %}
+                        </form>
+                    </div>
+                </div>
+
+                <div class="step hidden" id="step5Content">
+                    <h2>Terima Kasih</h2>
+                    <p>Terima kasih telah berpartisipasi dalam survey ini. Jawaban Anda sangat berharga bagi penelitian kami.</p>
+                </div>
+
+                <div class="btn-container">
+                    <button type="button" id="prevBtn" class="btn btn-secondary" onclick="prevStep()">Previous</button>
+                    <button type="button" id="nextBtn" class="btn btn-primary" onclick="nextStep()">Next</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

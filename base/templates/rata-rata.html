@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hasil Indeks Respon Kredit</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      color: #333;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 1100px;
+      margin: 20px auto;
+      background: #ffffff;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      padding: 20px;
+    }
+    .header {
+      background: #007bff;
+      color: white;
+      padding: 15px;
+      text-align: center;
+      border-radius: 10px 10px 0 0;
+      margin: -20px -20px 20px -20px;
+    }
+    .content p { font-size: 18px; margin: 10px 0; }
+    .category {
+      font-weight: bold;
+      padding: 6px 10px;
+      border-radius: 5px;
+      display: inline-block;
+    }
+    .Rendah { background-color: #ffd700; color: black; }
+    .Sedang { background-color: #adff2f; color: black; }
+    .Tinggi { background-color: #32cd32; color: white; }
+    .btn {
+      display: inline-block; margin: 10px 5px; padding: 10px 20px;
+      background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;
+    }
+    .btn:hover { background-color: #0056b3; }
+    .chart-row {
+      display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;
+    }
+    .chart-box { flex: 1 1 340px; text-align: center; min-width: 280px; }
+    canvas { margin-top: 20px; max-width: 100%; }
+    .irk-box {
+      border: 1px solid #007bff; border-radius: 8px;
+      padding: 10px 15px; margin-bottom: 8px;
+      background-color: #f1f8ff; font-size: 16px;
+    }
+    .small {
+      font-size: 14px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- BOX HASIL IRK -->
+  <div class="container">
+    <div class="header"><h2>Hasil Indeks Respon Kredit</h2></div>
+    <div class="content">
+      <p><strong>Nama:</strong> {{ nama }}</p>
+      <p><strong>Usia:</strong> {{ usia }} tahun</p>
+      <p><strong>Pekerjaan:</strong> {{ pekerjaan }}</p>
+      <p><strong>IRK:</strong> {{ irk|floatformat:"2" }}</p>
+      <p><strong>Kategori:</strong>
+        <span class="category {{ category }}">{{ category }}</span>
+      </p>
+    </div>
+  </div>
+
+  <!-- VISUALISASI -->
+  <div class="container">
+    <div class="header"><h2>Visualisasi IRK</h2></div>
+    <div class="chart-row">
+      <!-- Pie Chart Pekerjaan -->
+      <div class="chart-box" style="max-width: 360px;">
+        <h4>Distribusi Pekerjaan</h4>
+        <canvas id="pekerjaanChart"></canvas>
+      </div>
+      <!-- Bar Chart IRK Individu vs Rata-rata -->
+      <div class="chart-box">
+        <h4>Perbandingan IRK</h4>
+        <canvas id="irkChart"></canvas>
+      </div>
+      <!-- Bar Chart Rata-rata IRK per Pekerjaan -->
+      <div class="chart-box" style="flex: 1 1 100%;">
+        <h4>Rata-rata IRK per Pekerjaan</h4>
+        <canvas id="avgIrkPekerjaanChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- HASIL PENGUKURAN IRK (DALAM 1 BOX) -->
+  <div class="container">
+    <div class="header"><h2>Hasil Pengukuran IRK</h2></div>
+    <div class="content">
+
+      <!-- INDIVIDU -->
+      <div class="irk-box">
+        <h3>INDIVIDU :</h3>
+        <p><strong>Nama:</strong> {{ nama }}</p>
+        <p><strong>Pekerjaan:</strong> {{ pekerjaan }}</p>
+        <p><strong>IRK:</strong> {{ irk|floatformat:"2" }}
+          (<span class="category {{ category }}">{{ category }}</span>)
+        </p>
+      </div>
+
+      <!-- PEKERJAAN -->
+      <div class="irk-box" style="margin-top:20px;">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <h3>PEKERJAAN :</h3>
+          <div>
+            <label for="sortRange" style="font-weight:bold; margin-right:10px;">SORT</label>
+            <input type="range" id="sortRange" min="0" max="1" step="1" value="0"
+                  style="vertical-align:middle; width:120px;">
+            <div style="display:flex; justify-content:space-between; font-size:12px; margin-top:4px;">
+              <span>Tertinggi</span>
+              <span>Rendah</span>
+            </div>
+          </div>
+        </div>
+
+      <!-- INFO JUMLAH DISTRIBUSI -->
+      <p style="margin-top:8px; font-style:italic; color:#555;">
+        Distribusi pekerjaan dari <strong>{{ total_orang|default:"0" }}</strong> orang
+      </p>
+
+        <!-- LIST PEKERJAAN -->
+        <div id="pekerjaanList">
+          {% for d in avg_irk_per_pekerjaan|dictsortreversed:"avg_irk" %}
+            {% if d.pekerjaan != "-" and d.avg_irk != 0 %}
+              <div class="irk-box">
+                <strong>{{ d.pekerjaan }}</strong> → {{ d.avg_irk|floatformat:"2" }}
+              </div>
+            {% endif %}
+          {% empty %}
+            <div class="irk-box" style="background:#f9f9f9; border-color:#ccc;">
+              Tidak ada data
+            </div>
+          {% endfor %}
+        </div>
+
+        <!-- BOX TERTINGGI / TERENDAH -->
+        <div class="irk-box" id="highlightBox" style="margin-top:20px;">
+          <h3 id="highlightTitle">Tertinggi :</h3>
+          <p id="highlightText">
+            {% if avg_irk_per_pekerjaan %}
+              {% with max_pekerjaan=avg_irk_per_pekerjaan|dictsortreversed:"avg_irk"|first %}
+                Pekerjaan dengan IRK tertinggi adalah
+                <b>{{ max_pekerjaan.pekerjaan }}</b>
+                ({{ max_pekerjaan.avg_irk|floatformat:"2" }}).
+              {% endwith %}
+            {% else %}
+              Tidak ada data
+            {% endif %}
+          </p>
+        </div>
+      </div>
+
+      <!-- WILAYAH -->
+      <div class="irk-box" style="margin-top:20px;">
+        <h3>WILAYAH :</h3>
+
+        <!-- DROPDOWN PILIH WILAYAH -->
+        <div style="margin-bottom:15px;">
+          <label for="wilayahSelect" style="font-weight:bold; margin-right:10px;">Kategori Wilayah:</label>
+          <select id="wilayahSelect" style="padding:6px 10px; border-radius:5px; border:1px solid #ccc;">
+            <option value="kecamatan" selected>Per Kecamatan</option>
+            <option value="desa">Per Desa</option>
+          </select>
+        </div>
+
+        <!-- KELOMPOK KECAMATAN -->
+        <div id="wilayah-kecamatan">
+          {% if samples_kecamatan %}
+            {% if samples_kecamatan.all|length > 9 %}
+              <!-- Lebih dari 9 data → tampilkan 3 kecamatan per kategori -->
+              
+              <!-- Tinggi -->
+              <div class="irk-box small">
+                <h4>3 Kecamatan IRK Tinggi</h4>
+                {% for s in samples_kecamatan.tinggi %}
+                  <p>Kecamatan <b>{{ s.kecamatan }}</b> → <b>{{ s.avg_irk|floatformat:"2" }}</b></p>
+                {% empty %}
+                  <p>Tidak ada data</p>
+                {% endfor %}
+              </div>
+
+              <!-- Sedang -->
+              <div class="irk-box small">
+                <h4>3 Kecamatan IRK Sedang</h4>
+                {% for s in samples_kecamatan.sedang %}
+                  {% if forloop.first %}
+                    <p>Kecamatan <b>{{ s.kecamatan }}</b> → <b>{{ s.avg_irk|floatformat:"2" }}</b></p>
+                  {% elif forloop.last %}
+                    <p>Kecamatan <b>{{ s.kecamatan }}</b> → <b>{{ s.avg_irk|floatformat:"2" }}</b></p>
+                  {% else %}
+                    <p>(Tengah) Kecamatan <b>{{ s.kecamatan }}</b> → <b>{{ s.avg_irk|floatformat:"2" }}</b></p>
+                  {% endif %}
+                {% empty %}
+                  <p>Tidak ada data</p>
+                {% endfor %}
+              </div>
+
+              <!-- Rendah -->
+              <div class="irk-box small">
+                <h4>Kecamatan IRK Rendah</h4>
+                {% for s in samples_kecamatan.rendah %}
+                  {% if s.kecamatan and s.kecamatan != "-" and s.avg_irk > 0 %}
+                    <p>Kecamatan <b>{{ s.kecamatan }}</b> → <b>{{ s.avg_irk|floatformat:"2" }}</b></p>
+                  {% endif %}
+                {% empty %}
+                  <p>Tidak ada data</p>
+                {% endfor %}
+              </div>
+
+            {% else %}
+              <!-- Kalau <= 9 data → tampilkan semua -->
+              
+              <!-- Tinggi -->
+              <div class="irk-box small">
+                <h4>Kecamatan IRK Tinggi</h4>
+                {% for s in samples_kecamatan.tinggi %}
+                  <p>Kecamatan <b>{{ s.kecamatan }}</b> → <b>{{ s.avg_irk|floatformat:"2" }}</b></p>
+                {% empty %}
+                  <p>Tidak ada data</p>
+                {% endfor %}
+              </div>
+
+              <!-- Sedang -->
+              <div class="irk-box small">
+                <h4>Kecamatan IRK Sedang</h4>
+                {% for s in samples_kecamatan.sedang %}
+                  <p>Kecamatan <b>{{ s.kecamatan }}</b> → <b>{{ s.avg_irk|floatformat:"2" }}</b></p>
+                {% empty %}
+                  <p>Tidak ada data</p>
+                {% endfor %}
+              </div>
+
+              <!-- Rendah -->
+              <div class="irk-box small">
+                <h4>Kecamatan IRK Rendah</h4>
+                {% for s in samples_kecamatan.rendah %}
+                  <p>Kecamatan <b>{{ s.kecamatan }}</b> → <b>{{ s.avg_irk|floatformat:"2" }}</b></p>
+                {% empty %}
+                  <p>Tidak ada data</p>
+                {% endfor %}
+              </div>
+            {% endif %}
+          {% else %}
+            <p>Tidak ada data</p>
+          {% endif %}
+        </div>
+
+
+        <!-- KELOMPOK DESA -->
+        <div id="wilayah-desa" style="display:none;">
+          <div class="irk-box small">
+            <h4>3 Desa IRK Tinggi</h4>
+            {% for s in samples_desa.tinggi %}
+              <p>Desa <b>{{ s.desa }}</b> → <b>{{ s.avg_irk|floatformat:"2" }}</b></p>
+            {% empty %}
+              <p>Tidak ada data</p>
+            {% endfor %}
+          </div>
+
+          <div class="irk-box small">
+            <h4>3 Desa IRK Sedang</h4>
+            {% for s in samples_desa.sedang %}
+              {% if forloop.first %}
+                <p>Desa <b>{{ s.desa }}</b> → <b>{{ s.avg_irk|floatformat:"2" }}</b></p>
+              {% elif forloop.last %}
+                <p>Desa <b>{{ s.desa }}</b> → <b>{{ s.avg_irk|floatformat:"2" }}</b></p>
+              {% else %}
+                <p>(Tengah) Desa <b>{{ s.desa }}</b> → <b>{{ s.avg_irk|floatformat:"2" }}</b></p>
+              {% endif %}
+            {% empty %}
+              <p>Tidak ada data</p>
+            {% endfor %}
+          </div>
+
+          <div class="irk-box small">
+            <h4>3 Desa IRK Rendah</h4>
+            {% for s in samples_desa.rendah %}
+              <p>Desa <b>{{ s.desa }}</b> → <b>{{ s.avg_irk|floatformat:"2" }}</b></p>
+            {% empty %}
+              <p>Tidak ada data</p>
+            {% endfor %}
+          </div>
+        </div>
+
+<script>
+        // Toggle Kecamatan / Desa
+        document.getElementById("wilayahSelect").addEventListener("change", function() {
+          let val = this.value;
+          document.getElementById("wilayah-kecamatan").style.display = (val === "kecamatan") ? "block" : "none";
+          document.getElementById("wilayah-desa").style.display = (val === "desa") ? "block" : "none";
+        });
+      </script>
+
+
+  <script>
+    const sortRange = document.getElementById("sortRange");
+    const pekerjaanList = document.getElementById("pekerjaanList");
+    const highlightTitle = document.getElementById("highlightTitle");
+    const highlightText = document.getElementById("highlightText");
+
+    // Simpan semua item awal dalam bentuk array
+    let originalItems = Array.from(pekerjaanList.children);
+
+    function getIRKValue(element) {
+      const parts = element.innerText.split("→");
+      return parseFloat(parts[1]?.trim()) || 0;
+    }
+
+    function getPekerjaanInfo(element) {
+      const [pekerjaan, irk] = element.innerText.split("→");
+      return {
+        pekerjaan: pekerjaan.trim(),
+        irk: parseFloat(irk.trim()).toFixed(2),
+      };
+    }
+
+    function updateHighlight(sortedItems, mode) {
+      if (!sortedItems.length) return;
+      let target;
+
+      if (mode === "desc") {
+        // mode desc = urut tinggi → rendah → ambil index [0] sebagai tertinggi
+        target = sortedItems[0];
+        const { pekerjaan, irk } = getPekerjaanInfo(target);
+        highlightTitle.textContent = "Tertinggi :";
+        highlightText.innerHTML = `Pekerjaan dengan IRK tertinggi adalah <b>${pekerjaan}</b> (${irk}).`;
+      } else {
+        // mode asc = urut rendah → tinggi → ambil index [0] sebagai terendah
+        target = sortedItems[0];
+        const { pekerjaan, irk } = getPekerjaanInfo(target);
+        highlightTitle.textContent = "Terendah :";
+        highlightText.innerHTML = `Pekerjaan dengan IRK terendah adalah <b>${pekerjaan}</b> (${irk}).`;
+      }
+    }
+
+    function sortItems() {
+      let items = [...originalItems];
+
+      if (sortRange.value === "1") {
+        // ASCENDING = dari rendah ke tinggi
+        items.sort((a, b) => getIRKValue(a) - getIRKValue(b));
+        updateHighlight(items, "asc"); // tampilkan yang TERENDAH
+      } else {
+        // DESCENDING = dari tinggi ke rendah
+        items.sort((a, b) => getIRKValue(b) - getIRKValue(a));
+        updateHighlight(items, "desc"); // tampilkan yang TERTINGGI
+      }
+
+      pekerjaanList.innerHTML = "";
+      items.forEach(i => pekerjaanList.appendChild(i));
+    }
+
+    // Jalankan pertama kali
+    sortItems();
+    sortRange.addEventListener("input", sortItems);
+
+    // --- DATA UNTUK CHART ---
+    const ctxPekerjaan = document.getElementById('pekerjaanChart');
+    const ctxIRK = document.getElementById('irkChart');
+    const ctxAvg = document.getElementById('avgIrkPekerjaanChart');
+
+    const labelsP = [{% for d in pekerjaan_distribution %}'{{ d.pekerjaan }}',{% endfor %}];
+    const dataP = [{% for d in pekerjaan_distribution %}{{ d.count }},{% endfor %}];
+    const percentagesP = [{% for d in pekerjaan_distribution %}{{ d.percentage }},{% endfor %}];
+
+    const colorMap = {
+      'ASN/TNI/Polri/Pegawai BUMN': '#003366',
+      'Pengusaha/Pedagang/Kontraktor': '#004C99',
+      'Karyawan swasta/Profesional non PNS': '#0066CC',
+      'IRT/Pelajar/Mahasiswa/Belum (Tidak) Bekerja': '#3399FF',
+      'Buruh harian/Ojek Online/Petani/Nelayan/Peternak/Freelancer': '#99CCFF'
+    };
+
+    const irkValue = {{ irk|default:0|floatformat:"2" }};
+    const avgIRK = {{ avg_irk_pekerjaan|default:0|floatformat:"2" }};
+    const avgIrkLabels = [{% for d in avg_irk_per_pekerjaan %}'{{ d.pekerjaan }}',{% endfor %}];
+    const avgIrkValues = [{% for d in avg_irk_per_pekerjaan %}{{ d.avg_irk }},{% endfor %}];
+    const avgIrkColors = avgIrkValues.map(v => v<40? '#FFD700' : v<60? '#ADFF2F' : '#32CD32');
+
+    new Chart(ctxPekerjaan, {
+      type: 'pie',
+      data: {
+        labels: labelsP,
+        datasets: [{
+          data: dataP,
+          backgroundColor: labelsP.map(l => colorMap[l.replace(/'/g,"")] || '#ccc')
+        }]
+      },
+      options: {
+        plugins: {
+          legend: { position: 'bottom' },
+          tooltip: {
+            callbacks: {
+              label: function(c) { return `${labelsP[c.dataIndex]}: ${dataP[c.dataIndex]} (${percentagesP[c.dataIndex]}%)`; }
+            }
+          },
+          datalabels: {
+            color: '#fff',
+            formatter: function(v, c) { return percentagesP[c.dataIndex] ? percentagesP[c.dataIndex].toFixed(1) + '%' : ''; }
+          }
+        }
+      },
+      plugins: [ChartDataLabels]
+    });
+
+    new Chart(ctxIRK, {
+      type: 'bar',
+      data: {
+        labels: ['IRK Anda','Rata-rata Pekerjaan'],
+        datasets: [{
+          data: [irkValue, avgIRK],
+          backgroundColor: ['#007bff','#ff9800']
+        }]
+      },
+      options: {
+        plugins: {
+          legend: { display: false },
+          datalabels: {
+            anchor: 'end',
+            align: 'top',
+            formatter: function(v){ return parseFloat(v).toFixed(2); }
+          }
+        },
+        scales: { y: { suggestedMin:0, suggestedMax:100 } }
+      },
+      plugins:[ChartDataLabels]
+    });
+
+    new Chart(ctxAvg, {
+      type: 'bar',
+      data: {
+        labels: avgIrkLabels,
+        datasets: [{
+          data: avgIrkValues,
+          backgroundColor: avgIrkColors,
+          barThickness: 36
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        layout: { padding: { left: 10, right: 30 } },
+        plugins: {
+          legend: {
+            display: true,
+            labels: {
+              generateLabels: function(chart) {
+                return [
+                  { text: 'Rendah (<40)', fillStyle: '#FFD700' },
+                  { text: 'Sedang (40–59.99)', fillStyle: '#ADFF2F' },
+                  { text: 'Tinggi (60–100)', fillStyle: '#32CD32' }
+                ];
+              }
+            }
+          },
+          datalabels: {
+            anchor: 'end',
+            align: 'right',
+            formatter: function(v){ return parseFloat(v).toFixed(2); },
+            font: { size: 12 }
+          }
+        },
+        scales: {
+          x: { suggestedMax: 100, title: { display: true, text: "Nilai IRK (0–100)" } },
+          y: { ticks: { font: { size: 14 }, padding: 2 } }
+        }
+      },
+      plugins: [ChartDataLabels]
+    });
+</script>
+      </div>
+    </div>
+  </div>
+
+
+
+<!-- HASIL PENGUKURAN IRK (DALAM 1 BOX) -->
+  <div class="container">
+    <div class="header"><h2>Cluster Wilayah Berdasarkan IRK</h2></div>
+    <div class="content">
+    <form method="get" style="margin-bottom:10px;">
+      <label>Pilih level: </label>
+      <select name="level" onchange="this.form.submit()">
+        <option value="desa" {% if level == "desa" %}selected{% endif %}>Desa</option>
+        <option value="kecamatan" {% if level == "kecamatan" %}selected{% endif %}>Kecamatan</option>
+        <option value="both" {% if level == "both" %}selected{% endif %}>Keduanya</option>
+      </select>
+    </form>
+
+    <div>
+      {{ map_html|safe }}
+    </div>
+  </div>
+
+  <!-- TOMBOL KEMBALI KE DASHBOARD -->
+<div style="text-align:center; margin-top:20px;">
+  <a href="{% url 'dashboard-home' %}" class="btn">⬅ Kembali ke Dashboard</a>
+</div>
+
+
+
+</body>
+</html>

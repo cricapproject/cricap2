@@ -1,0 +1,36 @@
+{% extends "master.html" %}
+{% block title %}Dashboard User{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2>Halo, {{ request.user.username }}</h2>
+  <p>Kamu telah menyelesaikan <b>{{ total_survey }}</b> survei.</p>
+  <p>Kategori IRK terakhir: <b>{{ category }}</b></p>
+
+  <h4 class="mt-4">Riwayat Survei Kamu</h4>
+  <table class="table table-bordered mt-2">
+    <thead>
+      <tr>
+        <th>Nama</th>
+        <th>Kecamatan</th>
+        <th>Desa</th>
+        <th>IRK</th>
+        <th>Kategori</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in results_with_name %}
+      <tr>
+        <td>{{ r.nama }}</td>
+        <td>{{ r.kecamatan }}</td>
+        <td>{{ r.desa }}</td>
+        <td>{{ r.irk|floatformat:2 }}</td>
+        <td>{{ r.category }}</td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="5" class="text-center">Belum ada data survei.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

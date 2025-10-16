@@ -1,0 +1,605 @@
+{% extends "master.html" %}
+{% load static %}
+
+{% block title %}Dashboard - CRICAP{% endblock %}
+
+{% block head %}
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="{% static 'assets/css/main.css' %}" rel="stylesheet">
+{% endblock %}
+
+
+{% block content %}
+
+<body class="index-page">
+
+  <header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="container-fluid container-xl position-relative d-flex align-items-center">
+
+      <a href="index.html" class="logo d-flex align-items-center me-auto">
+        <img src="{% static 'assets/img/logo.png' %}" alt="">
+        <h1 class="sitename">CRICAP</h1>
+      </a>
+
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <li><a href="#hero" class="active">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#news">News</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+
+      <a class="btn-getstarted" href="{% url 'login' %}">Get Started</a>
+
+    </div>
+  </header>
+
+  <main class="main">
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero section">
+      <div class="hero-bg">
+        <img src="{% static 'assets/img/hero-bg-light.webp' %}" alt="">
+      </div>
+      <div class="container text-center">
+        <div class="d-flex flex-column justify-content-center align-items-center">
+          <h1 data-aos="fade-up">Welcome to <span>CRICAP</span></h1>
+          <p data-aos="fade-up" data-aos-delay="100">Building a Smarter and More Trustworthy Financial Future<br></p>
+          <div class="d-flex" data-aos="fade-up" data-aos-delay="200">
+            <a href="{% url 'login' %}" class="btn-get-started">Get Started</a>
+            <a href="https://www.youtube.com/watch?v=Y7f98aduVJ8" class="glightbox btn-watch-video d-flex align-items-center"><i class="bi bi-play-circle"></i><span>Watch Video</span></a>
+          </div>
+          <img src="{% static 'assets/img/hero-services-img.webp' %}" class="img-fluid hero-img" alt="" data-aos="zoom-out" data-aos-delay="300">
+        </div>
+      </div>
+
+    </section><!-- /Hero Section -->
+
+    <!-- Featured Services Section -->
+    <section id="featured-services" class="featured-services section light-background">
+
+      <div class="container">
+
+        <div class="row gy-4">
+
+          <div class="col-xl-4 col-lg-6" data-aos="fade-up" data-aos-delay="100">
+            <div class="service-item d-flex">
+              <div class="icon flex-shrink-0"><i class="bi bi-briefcase"></i></div>
+              <div>
+                <h4 class="title"><a href="{% url 'login' %}" class="stretched-link">Credit Response Index Analysis</a></h4>
+                <p class="description">CRICAP's key feature, credit response index analysis, allows users to see and understand how their credit behavior is rated.</p>
+              </div>
+            </div>
+          </div>
+          <!-- End Service Item -->
+
+          <div class="col-xl-4 col-lg-6" data-aos="fade-up" data-aos-delay="200">
+            <div class="service-item d-flex">
+              <div class="icon flex-shrink-0"><i class="bi bi-card-checklist"></i></div>
+              <div>
+                <h4 class="title"><a href="{% url 'news' %}" class="stretched-link">Financial Education Article</a></h4>
+                <p class="description">CRICAP provides educational articles designed to improve financial literacy.</p>
+              </div>
+            </div>
+          </div><!-- End Service Item -->
+
+          <div class="col-xl-4 col-lg-6" data-aos="fade-up" data-aos-delay="300">
+            <div class="service-item d-flex">
+              <div class="icon flex-shrink-0"><i class="bi bi-bar-chart"></i></div>
+              <div>
+                <h4 class="title"><a href="#news" class="stretched-link">Latest News on Finance</a></h4>
+                <p class="description">Tetap up-to-date dengan perkembangan dunia keuangan melalui berita terkini yang disajikan langsung di platform CRICAP.</p>
+              </div>
+            </div>
+          </div><!-- End Service Item -->
+
+        </div>
+
+      </div>
+
+    </section><!-- /Featured FAQ Section -->
+
+    <!-- news section -->
+    <section id="news" class="news section">
+          <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>News</h2>
+        <p>Find the right financial news for you!</p>
+      </div><!-- End Section Title -->
+
+      <!-- card section -->
+      <div class="container mt-5">
+        <div class="row">
+          {% for article in articles %}
+          <!-- News Card -->
+          <div class="col-md-4 mb-4">
+            <div class="news-card">
+              {% if article.urlToImage %}
+                <img src="{{ article.urlToImage }}" alt="News Image">
+              {% else %}
+                <img src="{% static 'assets/img/default_news.png' %}" alt="Default News Image">
+              {% endif %}
+              <div class="news-content">
+                <h5>{{ article.title }}</h5>
+                <a href="{{ article.url }}">Read More »</a>
+              </div>
+              <div class="news-footer">
+                {{ article.author }} &bull; {{article.publishedAt}}
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+
+        <!-- Load More Button -->
+        <a href="{% url 'news' %}" class="btn-load-more text-center">Lihat Lebih Banyak</a>
+      </div>
+      <!-- /card section -->
+    </section> 
+    <!-- /news section -->
+
+    <!-- About Section -->
+    <section id="about" class="about section">
+
+      <div class="container">
+
+        <div class="row gy-4">
+
+          <div class="col-lg-6 content" data-aos="fade-up" data-aos-delay="100">
+            <p class="who-we-are">Tentang CRICAP</p>
+            <h3>Apa itu CRICAP?</h3>
+            <p class="fst-italic">
+              CRICAP adalah sebuah perangkat lunak inovatif yang dirancang untuk membantu masyarakat dalam memahami dan menganalisis indeks respon kredit. 
+            </p>
+            <ul>
+              <li><i class="bi bi-check-circle"></i> <span>CRICAP menyediakan berbagai artikel edukasi yang dirancang untuk meningkatkan literasi keuangan masyarakat.</span></li>
+              <li><i class="bi bi-check-circle"></i> <span>Tetap up-to-date dengan perkembangan dunia keuangan melalui berita terkini yang disajikan langsung di platform CRICAP.</span></li>
+              <li><i class="bi bi-check-circle"></i> <span>Fitur utama CRICAP, analisis indeks respon kredit, memungkinkan pengguna untuk melihat dan memahami bagaimana perilaku kredit mereka dinilai.</span></li>
+            </ul>
+            <a href="#" class="read-more"><span>Read More</span><i class="bi bi-arrow-right"></i></a>
+          </div>
+
+          <div class="col-lg-6 about-images" data-aos="fade-up" data-aos-delay="200">
+            <div class="row gy-4">
+              <div class="col-lg-6">
+                <img src="{% static 'assets/img/about-company-1.jpg' %}" class="img-fluid" alt="">
+              </div>
+              <div class="col-lg-6">
+                <div class="row gy-4">
+                  <div class="col-lg-12">
+                    <img src="{% static 'assets/img/about-company-2.jpg' %}" class="img-fluid" alt="">
+                  </div>
+                  <div class="col-lg-12">
+                    <img src="{% static 'assets/img/about-company-3.jpg' %}" class="img-fluid" alt="">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- /About Section -->
+
+    <!-- Clients Section -->
+    <section id="clients" class="clients section">
+
+      <div class="container" data-aos="fade-up">
+
+        <div class="row gy-4 d-flex justify-content-center">
+
+          <div class="col-xl-4 col-md-3 col-6 client-logo">
+            <img src="{% static 'assets/img/clients/client-7.jpeg' %}" class="img-fluid" alt="">
+          </div><!-- End Client Item -->
+
+          <div class="col-xl-4 col-md-3 col-6 client-logo">
+            <img src="{% static 'assets/img/clients/client-8.png' %}?v=2" class="img-fluid" alt="">
+          </div><!-- End Client Item -->
+
+        </div>
+
+      </div>
+
+    </section><!-- /Clients Section -->
+
+    <!-- Features Section -->
+    <section id="features" class="features section">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Features</h2>
+        <p>Kenali fitur Fitur pada aplikasi kami</p>
+      </div><!-- End Section Title -->
+
+      <div class="container">
+        <div class="row justify-content-between">
+
+          <div class="col-lg-5 d-flex align-items-center">
+
+            <ul class="nav nav-tabs" data-aos="fade-up" data-aos-delay="100">
+              <li class="nav-item">
+                <a class="nav-link active show" data-bs-toggle="tab" data-bs-target="#features-tab-1">
+                  <i class="bi bi-binoculars"></i>
+                  <div>
+                    <h4 class="d-none d-lg-block">Kemudahan Penggunaan</h4>
+                    <p>
+                      Antarmuka yang intuitif dan ramah pengguna membuat CRICAP dapat diakses oleh siapa saja, baik pemula maupun ahli di bidang keuangan.
+                    </p>
+                  </div>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" data-bs-target="#features-tab-2">
+                  <i class="bi bi-box-seam"></i>
+                  <div>
+                    <h4 class="d-none d-lg-block">Keamanan Data Pengguna</h4>
+                    <p>
+                      Data Anda adalah prioritas kami. CRICAP memastikan keamanan informasi pengguna dengan standar perlindungan data terbaik.
+                    </p>
+                  </div>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" data-bs-target="#features-tab-3">
+                  <i class="bi bi-brightness-high"></i>
+                  <div>
+                    <h4 class="d-none d-lg-block">Kenali Respon Kreditmu</h4>
+                    <p>
+                      Kenali respon kreditmu hanya dari satu aplikasi !!!
+                    </p>
+                  </div>
+                </a>
+              </li>
+            </ul><!-- End Tab Nav -->
+
+          </div>
+
+          <div class="col-lg-6">
+
+            <div class="tab-content" data-aos="fade-up" data-aos-delay="200">
+
+              <div class="tab-pane fade active show" id="features-tab-1">
+                <img src="{% static 'assets/img/tabs-1.jpg' %}" alt="" class="img-fluid">
+              </div><!-- End Tab Content Item -->
+
+              <div class="tab-pane fade" id="features-tab-2">
+                <img src="{% static 'assets/img/tabs-2.jpg' %}" alt="" class="img-fluid">
+              </div><!-- End Tab Content Item -->
+
+              <div class="tab-pane fade" id="features-tab-3">
+                <img src="{% static 'assets/img/tabs-3.jpg' %}" alt="" class="img-fluid">
+              </div><!-- End Tab Content Item -->
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section><!-- /Features Section -->
+
+    <!-- Features Details Section -->
+    <section id="features-details" class="features-details section">
+
+      <div class="container">
+
+        <div class="row gy-4 justify-content-between features-item">
+
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+            <img src="{% static 'assets/img/features-1.jpg' %}" class="img-fluid" alt="">
+          </div>
+
+          <div class="col-lg-5 d-flex align-items-center" data-aos="fade-up" data-aos-delay="200">
+            <div class="content">
+              <h3>Analisis Indeks Respon Kredit</h3>
+              <p>
+                Pelajari lebih dalam tentang bagaimana perilaku kredit Anda dinilai melalui analisis indeks yang komprehensif dan mudah dipahami. Fitur ini dirancang untuk membantu Anda membuat keputusan finansial yang lebih bijaksana.
+              </p>
+              <a href="#" class="btn more-btn">Learn More</a>
+            </div>
+          </div>
+
+        </div><!-- Features Item -->
+
+        <div class="row gy-4 justify-content-between features-item">
+
+          <div class="col-lg-5 d-flex align-items-center order-2 order-lg-1" data-aos="fade-up" data-aos-delay="100">
+
+            <div class="content">
+              <h3>Artikel Edukasi Keuangan</h3>
+              <p>
+                Tingkatkan literasi keuangan Anda dengan membaca berbagai artikel edukasi yang disediakan oleh CRICAP. Dari dasar-dasar pengelolaan keuangan hingga tips menghadapi tantangan finansial, semuanya tersedia untuk Anda.
+              </p>
+              <p></p>
+              <a href="#" class="btn more-btn">Learn More</a>
+            </div>
+
+          </div>
+
+          <div class="col-lg-6 order-1 order-lg-2" data-aos="fade-up" data-aos-delay="200">
+            <img src="{% static 'assets/img/features-2.jpg' %}" class="img-fluid" alt="">
+          </div>
+
+        </div><!-- Features Item -->
+
+      </div>
+
+    </section><!-- /Features Details Section -->
+
+
+    </section><!-- /More Features Section -->
+
+    <!-- News Section -->
+    <section id="news" class="news section">
+      <div class="container" data-aos="fade-up">
+    <!-- /News Section -->
+
+    <!-- Faq Section -->
+    <section id="faq" class="faq section">
+      <div class="container" data-aos="fade-up">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Frequently Asked Questions</h2>
+      </div><!-- End Section Title -->
+
+      <div class="container">
+
+        <div class="row justify-content-center">
+
+          <div class="col-lg-10" data-aos="fade-up" data-aos-delay="100">
+
+            <div class="faq-container">
+
+              <div class="faq-item faq-active">
+                <h3>Apa itu CRICAP?</h3>
+                <div class="faq-content">
+                  <p>CRICAP adalah sebuah aplikasi inovatif yang dirancang untuk membantu masyarakat memahami dan menganalisis indeks respon kredit mereka. Selain itu, CRICAP juga menyediakan artikel edukasi dan berita keuangan terkini untuk meningkatkan literasi finansial pengguna.</p>
+                </div>
+                <i class="faq-toggle bi bi-chevron-right"></i>
+              </div><!-- End Faq item-->
+
+              <div class="faq-item">
+                <h3>Apa manfaat utama dari analisis indeks respon kredit di CRICAP?</h3>
+                <div class="faq-content">
+                  <p>Fitur ini membantu pengguna untuk memahami bagaimana perilaku kredit mereka dinilai. Dengan analisis yang mudah dipahami, Anda dapat melihat faktor-faktor yang memengaruhi penilaian kredit dan mengambil langkah yang tepat untuk meningkatkan kelayakan kredit Anda.</p>
+                </div>
+                <i class="faq-toggle bi bi-chevron-right"></i>
+              </div><!-- End Faq item-->
+
+              <div class="faq-item">
+                <h3>Apakah data pribadi saya aman saat menggunakan CRICAP?</h3>
+                <div class="faq-content">
+                  <p>Tentu saja! CRICAP menggunakan teknologi keamanan terbaik untuk melindungi data pribadi pengguna. Semua informasi Anda disimpan dengan aman dan hanya digunakan untuk keperluan analisis yang sesuai.</p>
+                </div>
+                <i class="faq-toggle bi bi-chevron-right"></i>
+              </div><!-- End Faq item-->
+
+              <div class="faq-item">
+                <h3>Siapa yang dapat menggunakan aplikasi CRICAP?</h3>
+                <div class="faq-content">
+                  <p>Aplikasi CRICAP dapat digunakan oleh siapa saja, baik individu yang ingin meningkatkan literasi keuangan mereka maupun pelaku usaha kecil yang membutuhkan wawasan tentang perilaku kredit.</p>
+                </div>
+                <i class="faq-toggle bi bi-chevron-right"></i>
+              </div><!-- End Faq item-->
+
+              <div class="faq-item">
+                <h3>Apakah CRICAP menyediakan layanan gratis?</h3>
+                <div class="faq-content">
+                  <p>Sebagian besar fitur dasar CRICAP, seperti membaca artikel edukasi dan berita terkini, dapat diakses secara gratis. Namun, untuk fitur premium seperti analisis indeks respon kredit yang lebih mendalam, Anda mungkin perlu berlangganan.</p>
+                </div>
+                <i class="faq-toggle bi bi-chevron-right"></i>
+              </div><!-- End Faq item-->
+
+              <div class="faq-item">
+                <h3>Bagaimana cara mulai menggunakan CRICAP?</h3>
+                <div class="faq-content">
+                  <p>Anda dapat mengunduh aplikasi CRICAP dari platform resmi atau mengaksesnya melalui website kami. Setelah mendaftar dan membuat akun, Anda dapat langsung menjelajahi berbagai fitur yang tersedia.</p>
+                </div>
+                <i class="faq-toggle bi bi-chevron-right"></i>
+              </div><!-- End Faq item-->
+
+            </div>
+
+          </div><!-- End Faq Column-->
+
+        </div>
+
+      </div>
+
+    </section><!-- /Faq Section -->
+
+    <!-- Testimonials Section -->
+     <!-- /Testimonials Section -->
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact section">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Contact</h2>
+        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+      </div><!-- End Section Title -->
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row gy-4">
+
+          <div class="col-lg-6">
+            <div class="info-item d-flex flex-column justify-content-center align-items-center" data-aos="fade-up" data-aos-delay="200">
+              <i class="bi bi-geo-alt"></i>
+              <h3>Address</h3>
+              <p>Jalan Veteran, Malang 65145</p>
+              <p>Fakultas Matematika dan Ilmu Pengetahuan Alam, Universitas Brawijaya</p>
+            </div>
+          </div><!-- End Info Item -->
+
+          <div class="col-lg-3 col-md-6">
+            <div class="info-item d-flex flex-column justify-content-center align-items-center" data-aos="fade-up" data-aos-delay="300">
+              <i class="bi bi-telephone"></i>
+              <h3>Call Us</h3>
+              <p>089676984344</p>
+            </div>
+          </div><!-- End Info Item -->
+
+          <div class="col-lg-3 col-md-6">
+            <div class="info-item d-flex flex-column justify-content-center align-items-center" data-aos="fade-up" data-aos-delay="400">
+              <i class="bi bi-envelope"></i>
+              <h3>Email Us</h3>
+              <p>cricapproject@gmail.com</p>
+            </div>
+          </div><!-- End Info Item -->
+
+        </div>
+
+        <div class="row gy-4 mt-1">
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
+            <iframe 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3950.527847142476!2d112.61526827480683!3d-7.952515879109105!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e788274ab64a7b1%3A0x7c073a5dfdbe266a!2sFakultas%20Matematika%20dan%20Ilmu%20Pengetahuan%20Alam%20Universitas%20Brawijaya%20(FMIPA%20UB)!5e0!3m2!1sid!2sid!4v1733333333333!5m2!1sid!2sid" 
+              frameborder="0" 
+              style="border:0; width: 100%; height: 400px;" 
+              allowfullscreen="" 
+              loading="lazy" 
+              referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+          </div><!-- End Google Maps -->
+ 
+          <div class="col-lg-6">
+            <form action="forms/contact.php" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="400">
+              <div class="row gy-4">
+
+                <div class="col-md-6">
+                  <input type="text" name="name" class="form-control" placeholder="Your Name" required="">
+                </div>
+
+                <div class="col-md-6 ">
+                  <input type="email" class="form-control" name="email" placeholder="Your Email" required="">
+                </div>
+
+                <div class="col-md-12">
+                  <input type="text" class="form-control" name="subject" placeholder="Subject" required="">
+                </div>
+
+                <div class="col-md-12">
+                  <textarea class="form-control" name="message" rows="6" placeholder="Message" required=""></textarea>
+                </div>
+
+                <div class="col-md-12 text-center">
+                  <div class="loading">Loading</div>
+                  <div class="error-message"></div>
+                  <div class="sent-message">Your message has been sent. Thank you!</div>
+
+                  <button type="submit">Send Message</button>
+                </div>
+
+              </div>
+            </form>
+          </div><!-- End Contact Form -->
+
+        </div>
+
+      </div>
+
+    </section><!-- /Contact Section -->
+
+  </main>
+
+  <footer id="footer" class="footer position-relative light-background">
+
+    <div class="container footer-top">
+      <div class="row gy-4">
+        <div class="col-lg-4 col-md-6 footer-about">
+          <a href="index.html" class="logo d-flex align-items-center">
+            <span class="sitename">CRICAP</span>
+          </a>
+          <div class="footer-contact pt-3">
+              <p>Jalan Veteran, Malang 65145</p>
+              <p>Fakultas Matematika dan Ilmu Pengetahuan Alam, Universitas Brawijaya</p>
+            <p class="mt-3"><strong>Phone:</strong> <span>089676984344</span></p>
+            <p><strong>Email:</strong> <span>cricapproject@gmail.com</span></p>
+          </div>
+          <div class="social-links d-flex mt-4">
+            <a href=""><i class="bi bi-twitter-x"></i></a>
+            <a href=""><i class="bi bi-facebook"></i></a>
+            <a href=""><i class="bi bi-instagram"></i></a>
+            <a href=""><i class="bi bi-linkedin"></i></a>
+          </div>
+        </div>
+
+        <div class="col-lg-2 col-md-3 footer-links">
+          <h4>Useful Links</h4>
+          <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About us</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Terms of service</a></li>
+            <li><a href="#">Privacy policy</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-2 col-md-3 footer-links">
+          <h4>Our Services</h4>
+          <ul>
+            <li><a href="#">Web Design</a></li>
+            <li><a href="#">Web Development</a></li>
+            <li><a href="#">Product Management</a></li>
+            <li><a href="#">Marketing</a></li>
+            <li><a href="#">Graphic Design</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-4 col-md-12 footer-newsletter">
+          <h4>Our Newsletter</h4>
+          <p>Subscribe to our newsletter and receive the latest news about our products and services!</p>
+          <form action="forms/newsletter.php" method="post" class="php-email-form">
+            <div class="newsletter-form"><input type="email" name="email"><input type="submit" value="Subscribe"></div>
+            <div class="loading">Loading</div>
+            <div class="error-message"></div>
+            <div class="sent-message">Your subscription request has been sent. Thank you!</div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="container copyright text-center mt-4">
+      <p>© <span>Copyright</span> <strong class="px-1 sitename">QuickStart</strong><span>All Rights Reserved</span></p>
+      <div class="credits">
+        <!-- All the links in the footer should remain intact. -->
+        <!-- You can delete the links only if you've purchased the pro version. -->
+        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+        <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+      </div>
+    </div>
+
+  </footer>
+
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Preloader -->
+  <div id="preloader"></div>
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
+  <script src="{% static 'assets/vendor/aos/aos.js' %}"></script>
+  <script src="{% static 'assets/vendor/glightbox/js/glightbox.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
+
+
+  <!-- Main JS File -->
+  <script src="{% static 'assets/js/main.js' %}"></script>
+
+</body>
+{% endblock %}
+
+</html>
