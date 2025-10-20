@@ -25,8 +25,7 @@ SECRET_KEY = 'django-insecure-ym+z)kz37zf+q8_%m_9@!296^$=9te8(g=2s1kofj1ad%buhjr
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ["cricap.my.id", "www.cricap.my.id", "109.110.188.124"]
 
 # Application definition
 
@@ -118,10 +117,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
-
-STATICFILES_DIRS = [
-    BASE_DIR / 'staticfiles'
-]
-
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
